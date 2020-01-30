@@ -1,0 +1,149 @@
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Parte3_PRÁCTICAFINAL_XPP</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+    
+    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .títol {position:absolute; top: 50px; left: 250px;z-index: 500; background-color:gainsboro; font-size: 50px; height: 50px;padding: 25px;border: solid 2px black;
+        border-radius: 10px;opacity:85%}
+
+        .TIPUSCONST,.NOMDPT, .ANY_CONST {font-size: 14px;height: 14px; padding: 7px; width:fit-content;font-weight: bold; margin: auto;}
+        .content {font-size: 10px;height: 10px; padding: 5px; width:fit-content;font-weight: bolder; margin: auto;}
+
+        .llegenda {position: absolute; z-index: 500;bottom: 100px; left: 100px; opacity:85%; border:solid 1px navy; border-radius: 2px;}
+
+    </style>
+    
+    <script>
+
+        function init() {
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'https://geoserveis.icgc.cat/contextmaps/osm-bright.json',
+            center: [2.837187, 41.972005],
+            zoom: 18.5,
+            pitch: 60,
+            hash:true,
+            attributionControl: false
+            })
+
+            map.addControl(new mapboxgl.AttributionControl({compact: true}));
+            map.addControl(new mapboxgl.NavigationControl());
+       
+        map.on('load', function () {
+
+            mapboxgl.accessToken ='pk.eyJ1IjoieHBwbWFwYm94IiwiYSI6ImNrNGIzcTFpYzA5d3IzZW14MXRnbGJzdGUifQ.jUQMgGV_VYxcIkhUOdCNxw'  
+            map.addSource("cemgi_source", {
+                    type: "vector",
+                    url: "mapbox://xppmapbox.5n6tnlrk"
+                    });
+
+                map.addLayer({
+                    id: "cemgi",
+                    type: "fill-extrusion",
+                    source: "cemgi_source",
+                    'source-layer': "cemgi-7k3kmd",
+                    paint:{
+                        'fill-extrusion-color':"#cdd4c9",
+                        'fill-extrusion-height':0.1,
+                          } }
+                )
+
+
+            map.addSource("constall_source", {
+                    type: "vector",
+                    url: "mapbox://xppmapbox.aumne5fc"
+                    });
+
+                map.addLayer({
+                    id: "constall",
+                    type: "circle",
+                    source: "constall_source",
+                    'source-layer': "const_all-dcghks",
+                    paint:{
+                        'circle-radius':3,
+                        'circle-color': ['match',['get', 'TIPUSCONST'],
+                        'A','#5674d7',
+                        'P','#da1bad',
+                        'T','#986767',
+                        'C','#640743',
+                        'N','#c24c4c',
+                        'H','#ecf31b',
+                        '#245b0b'],
+                        }}
+                    )
+   
+                    });
+
+        map.on('click','constall',function(e){
+
+            var text1= "";
+            var text2= "";
+            var text3= "";
+
+            for (key in e.features[0].properties){
+
+                if (key == 'TIPUSCONST') {
+  
+                text1 += "<span class="+key+">TIPO SEPULTURA:"+"</span>"+"<span class="+"content"+">"+e.features[0].properties[key]+"</br>"+"</span>"
+                    }
+
+                if (key == 'NOMDPT') {
+  
+                text2 += "<span class="+key+">ZONA:"+"</span>"+"<span class="+"content"+">"+e.features[0].properties[key]+"</br>"+"</span>"
+                    }
+                    
+                if (key == 'ANY_CONST') {
+  
+                text3 += "<span class="+key+">AÑO CONSTRUCCIÓN:"+"</span>"+"<span class="+"content"+">"+e.features[0].properties[key]+"</br>"+"</span>"
+                    }
+                }
+            
+            new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(text1+text2+text3)
+            .addTo(map);
+        });
+
+        map.on('mouseenter', 'constall', function() {
+        map.getCanvas().style.cursor = 'pointer';                    
+        });
+
+        map.on('mouseleave', 'constall', function() {
+        map.getCanvas().style.cursor = '';                    
+        });
+
+        }      
+        
+    </script>
+
+</head>
+<div class="títol">CEMENTERIO DE GIRONA - PLANO INFORMATIVO</div>
+
+
+<body onload="init()">
+    <div id="map"></div>
+
+<div class="llegenda"><img src="img/lleg.jpg"/></div>>
+
+</body>
+
+</html>  

@@ -1,0 +1,55 @@
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Parte3_PRÁCTICAFINAL1_XPP</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%
+        }
+        .títol {position:absolute; top: 50px; left: 250px;z-index: 500; background-color:gainsboro; font-size: 50px; height: 50px;padding: 25px;border: solid 2px black;
+        border-radius: 10px;opacity:85%}
+
+        .llegenda {position: absolute; z-index: 500;bottom: 100px; left: 100px; opacity:85%; border:solid 1px navy; border-radius: 2px;}
+
+    </style>
+    <script>
+        function init() {
+            mapboxgl.accessToken =
+                'pk.eyJ1IjoieHBwbWFwYm94IiwiYSI6ImNrNGIzcTFpYzA5d3IzZW14MXRnbGJzdGUifQ.jUQMgGV_VYxcIkhUOdCNxw'  
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/xppmapbox/ck5cpdysp018e1epbp0dp9lmj',
+                center: [2.837187, 41.972005],
+                zoom: 18.5,
+                hash: true,
+                pitch: 60,
+                attributionControl: false})
+
+            map.addControl(new mapboxgl.AttributionControl({compact: true}));
+            map.addControl(new mapboxgl.NavigationControl());
+   
+            }
+ 
+         </script>
+</head>
+<div class="títol">CEMENTERIO DE GIRONA - PLANO INFORMATIVO</div>
+
+
+<body onload="init()">
+    <div id="map"></div>
+
+<div class="llegenda"><img src="img/lleg.jpg"/></div>>
+</body>
+
+</html>  
